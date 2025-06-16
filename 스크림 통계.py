@@ -256,7 +256,7 @@ elif menu == "7. 스트리머의 모든 경기 확인":
     st.dataframe(style_dataframe(subset[cols].sort_values(by=["날짜", "경기 번호"])).apply(highlight, axis=1), use_container_width=True, height=600)
 
 if menu == "8. 팀별 승률 및 상대전적":
-    st.header("🤝 팀별 승률 및 상대전적")
+    st.header("팀별 승률 및 상대전적")
 
     if "경기 번호" in df.columns and "팀" in df.columns and "승패" in df.columns:
         # 경기별 팀별 선수 수 집계
@@ -309,6 +309,7 @@ if menu == "8. 팀별 승률 및 상대전적":
                 team_stats.append(extra)
 
         team_df = pd.DataFrame(team_stats).sort_values("승률", ascending=False)
+        team_df["승률"] = team_df["승률"].map(lambda x: f"{x:.2f}%")
 
         # 팀별 상대전적 초기화
         result_matrix = pd.DataFrame(index=teams, columns=teams, data="")
