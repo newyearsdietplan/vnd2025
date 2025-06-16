@@ -152,12 +152,18 @@ def get_rounds_score(game_data, team1, team2):
         rounds_vals = game_data["rounds"].dropna().unique()
         if len(rounds_vals) > 0:
             rounds_str = rounds_vals[0]
+            st.write(f"Debug: 경기 {game_data['경기 번호'].iloc[0]} rounds 컬럼 값 = {rounds_str}")  # 디버깅용 출력
             if isinstance(rounds_str, str) and ":" in rounds_str:
                 try:
                     r1, r2 = map(int, rounds_str.split(":"))
-                    return r1, r2
+                    # 정상 범위 체크 (라운드 승리 수는 대개 0~20 사이)
+                    if 0 <= r1 <= 30 and 0 <= r2 <= 30:
+                        return r1, r2
+                    else:
+                        st.warning(f"Warning: 경기 {game_data['경기 번호'].iloc[0]} rounds 점수 이상치 발견: {r1}:{r2}")
                 except:
-                    pass
+                    st.error(f"Error: 경기 {game_data['경기 번호'].iloc[0]} rounds 점수 파싱 실패: {rounds_str}")
+    # rounds 컬럼 없거나 잘못된 경우, 킬 수 합산 대체
     r1 = game_data[game_data["팀"] == team1]["킬"].sum()
     r2 = game_data[game_data["팀"] == team2]["킬"].sum()
     return r1, r2
