@@ -408,7 +408,13 @@ if menu == "8. 팀별 승률 및 상대전적":
             if len(valid_teams) != 2:
                 continue
 
-            st.markdown(f"### 경기 {game_id}: {valid_teams[0]} vs {valid_teams[1]}")
+            team1, team2 = sorted(valid_teams)
+
+            # 각 팀별 라운드 승리 수 계산 (킬 합산으로 예시)
+            team1_rounds = game_data[game_data["팀"] == team1]["킬"].sum()
+            team2_rounds = game_data[game_data["팀"] == team2]["킬"].sum()
+
+            st.markdown(f"### 경기 {game_id}: {team1} vs {team2} ({team1_rounds} : {team2_rounds})")
 
             subset = game_data[game_data["팀"].isin(valid_teams)].copy()
             subset = subset[cols]
