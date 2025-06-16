@@ -427,7 +427,7 @@ if menu == "8. 팀별 승률 및 상대전적":
             subset = game_data[game_data["팀"].isin(valid_teams)].copy()
             subset = subset[cols]
 
-            subset = subset.sort_values(by=["팀", "스트리머 이름"])
+            subset = subset.sort_values(by=["전투 점수"], ascending=False)
 
             subset_styled = subset.style.format({
                 "전투 점수": "{:.2f}",
