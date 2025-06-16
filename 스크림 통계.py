@@ -410,11 +410,19 @@ if menu == "8. 팀별 승률 및 상대전적":
 
             team1, team2 = sorted(valid_teams)
 
-            # 각 팀별 라운드 승리 수 계산 (킬 합산으로 예시)
-            team1_rounds = game_data[game_data["팀"] == team1]["킬"].sum()
-            team2_rounds = game_data[game_data["팀"] == team2]["킬"].sum()
+            # rounds 컬럼에서 각 팀별 라운드 승리 수 가져오기
+            rounds_info = game_data["rounds"].iloc[0] if "rounds" in game_data.columns else None
+            if rounds_info and isinstance(rounds_info, str) and ":" in rounds_info:
+                try:
+                    r1, r2 = map(int, rounds_info.split(":"))
+                except:
+                    r1, r2 = 0, 0
+            else:
+                # 기본값 (킬 합산 등)
+                r1 = game_data[game_data["팀"] == team1]["킬"].sum()
+                r2 = game_data[game_data["팀"] == team2]["킬"].sum()
 
-            st.markdown(f"### 경기 {game_id}: {team1} vs {team2} ({team1_rounds} : {team2_rounds})")
+            st.markdown(f"### 경기 {game_id}: {team1} vs {team2} ({r1} : {r2})")
 
             subset = game_data[game_data["팀"].isin(valid_teams)].copy()
             subset = subset[cols]
