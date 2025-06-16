@@ -148,24 +148,14 @@ agg_dict = {
 }
 
 def get_rounds_score(game_data, team1, team2):
-    if "rounds" in game_data.columns:
-        rounds_vals = game_data["rounds"].dropna().unique()
-        if len(rounds_vals) > 0:
-            rounds_str = rounds_vals[0]
-            st.write(f"Debug: 경기 {game_data['경기 번호'].iloc[0]} rounds 컬럼 값 = {rounds_str}")  # 디버깅용 출력
-            if isinstance(rounds_str, str) and ":" in rounds_str:
-                try:
-                    r1, r2 = map(int, rounds_str.split(":"))
-                    # 정상 범위 체크 (라운드 승리 수는 대개 0~20 사이)
-                    if 0 <= r1 <= 30 and 0 <= r2 <= 30:
-                        return r1, r2
-                    else:
-                        st.warning(f"Warning: 경기 {game_data['경기 번호'].iloc[0]} rounds 점수 이상치 발견: {r1}:{r2}")
-                except:
-                    st.error(f"Error: 경기 {game_data['경기 번호'].iloc[0]} rounds 점수 파싱 실패: {rounds_str}")
-    # rounds 컬럼 없거나 잘못된 경우, 킬 수 합산 대체
-    r1 = game_data[game_data["팀"] == team1]["킬"].sum()
-    r2 = game_data[game_data["팀"] == team2]["킬"].sum()
+    # 팀별 rounds 컬럼의 값들을 유니크하게 가져옴
+    team1_rounds = game_data[game_data["팀"] == team1]["rounds"].dropna().unique()
+    team2_rounds = game_data[game_data["팀"] == team2]["rounds"].dropna().unique()
+
+    # 각 팀의 rounds 값이 여러개 있으면 가장 흔한 값을 선택하거나 첫 번째를 사용
+    r1 = int(team1_rounds[0]) if len(team1_rounds) > 0 else 0
+    r2 = int(team2_rounds[0]) if len(team2_rounds) > 0 else 0
+
     return r1, r2
     
 # 메인 타이틀
