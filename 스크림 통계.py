@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-
 st.set_page_config(page_title="발낳대 2025 - 스크림 통계", layout="wide")
 
 # 데이터 로딩 및 컬럼 정리
