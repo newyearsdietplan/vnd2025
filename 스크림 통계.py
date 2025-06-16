@@ -410,15 +410,19 @@ if menu == "8. 팀별 승률 및 상대전적":
 
             team1, team2 = sorted(valid_teams)
 
-            # rounds 컬럼에서 각 팀별 라운드 승리 수 가져오기
-            rounds_info = game_data["rounds"].iloc[0] if "rounds" in game_data.columns else None
+            # rounds 컬럼에서 각 팀별 라운드 승리 수 가져오기 (중복 제거 후 첫 값만 사용)
+            rounds_info = None
+            if "rounds" in game_data.columns:
+                rounds_unique = game_data["rounds"].dropna().unique()
+                if len(rounds_unique) > 0:
+                    rounds_info = rounds_unique[0]
+
             if rounds_info and isinstance(rounds_info, str) and ":" in rounds_info:
                 try:
                     r1, r2 = map(int, rounds_info.split(":"))
                 except:
                     r1, r2 = 0, 0
             else:
-                # 기본값 (킬 합산 등)
                 r1 = game_data[game_data["팀"] == team1]["킬"].sum()
                 r2 = game_data[game_data["팀"] == team2]["킬"].sum()
 
