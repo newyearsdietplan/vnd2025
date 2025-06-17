@@ -367,22 +367,23 @@ if menu == "8. 팀별 승률 및 상대전적":
                     result_matrix.loc[t1, t2] = current_rev
 
         # 모운팀 vs 파인팀 2패 추가
-        for _ in range(2):
-            current = result_matrix.loc["파인", "모운"]
-            if current == "":
-                current = "1승 0패"
-            else:
-                w, l = map(int, current.replace("승", "").replace("패", "").split())
-                current = f"{w+1}승 {l}패"
-            result_matrix.loc["파인", "모운"] = current
+        if "파인" in result_matrix.index and "모운" in result_matrix.columns:
+            for _ in range(2):
+                current = result_matrix.loc["파인", "모운"]
+                if current == "":
+                    current = "1승 0패"
+                else:
+                    w, l = map(int, current.replace("승", "").replace("패", "").split())
+                    current = f"{w+1}승 {l}패"
+                result_matrix.loc["파인", "모운"] = current
 
-            current_rev = result_matrix.loc["모운", "파인"]
-            if current_rev == "":
-                current_rev = "0승 1패"
-            else:
-                w, l = map(int, current_rev.replace("승", "").replace("패", "").split())
-                current_rev = f"{w}승 {l+1}패"
-            result_matrix.loc["모운", "파인"] = current_rev
+                current_rev = result_matrix.loc["모운", "파인"] if "모운" in result_matrix.index and "파인" in result_matrix.columns else ""
+                if current_rev == "":
+                    current_rev = "0승 1패"
+                else:
+                    w, l = map(int, current_rev.replace("승", "").replace("패", "").split())
+                    current_rev = f"{w}승 {l+1}패"
+                result_matrix.loc["모운", "파인"] = current_rev
 
         # 대각선 칸 빈칸으로 처리
         for team in teams:
