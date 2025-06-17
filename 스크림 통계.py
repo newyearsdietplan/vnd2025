@@ -20,6 +20,8 @@ df.rename(columns={
     "DF": "해체"
 }, inplace=True)
 
+st.write("✅ 컬럼 확인:", df.columns.tolist())
+
 # 승패 숫자 변환
 if "승패" in df.columns:
     df["승리"] = df["승패"].map({"v": 1, "l": 0})
