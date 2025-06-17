@@ -127,7 +127,7 @@ def compute_stats(g):
 
     # 컬럼 이름 정리
     g.rename(columns={
-        "경기 번호_nunique": "경기 수",
+        "경기 번호_nunique": "총 경기 수",
         "킬_sum": "총 킬",
         "데스_sum": "총 데스",
         "어시스트_sum": "총 어시스트",
@@ -142,7 +142,7 @@ def compute_stats(g):
         "헤드샷%_mean": "헤드샷%",
         "KD_mean": "dummy_KD",
         "KDA_mean": "dummy_KDA",
-        "승리_sum": "승리 수",
+        "승리_sum": "총 승리 수",
         "승리_mean": "승률"
     }, inplace=True)
 
