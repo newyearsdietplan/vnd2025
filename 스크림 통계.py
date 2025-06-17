@@ -20,8 +20,6 @@ df.rename(columns={
     "DF": "해체"
 }, inplace=True)
 
-st.write("✅ 컬럼 확인:", df.columns.tolist())
-
 # 승패 숫자 변환
 if "승패" in df.columns:
     df["승리"] = df["승패"].map({"v": 1, "l": 0})
@@ -172,10 +170,10 @@ agg_dict = {
     "데스": "sum",
     "어시스트": "sum",
     "첫 킬": "mean",
-    "FD": "mean",     # 추가
-    "MK": "mean",     # 추가
-    "PL": "mean",     # 추가
-    "DF": "mean",     # 추가
+    "첫 데스": "mean",     # 추가
+    "멀티킬": "mean",     # 추가
+    "설치": "mean",     # 추가
+    "해체": "mean",     # 추가
     "전투 점수": "mean",
     "피해량": "mean",
     "피해량 격차": "mean",
