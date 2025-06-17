@@ -452,7 +452,7 @@ if menu == "8. 팀별 승률 및 상대전적":
 
             # 선수 3명 이상 팀 필터링
             teams_in_game = game_data["팀"].value_counts()
-            valid_teams = teams_in_game[teams_in_game >= 3].index.tolist()
+            valid_teams = teams_in_game[teams_in_game >= 1].index.tolist()
             if len(valid_teams) != 2:
                 continue
 
