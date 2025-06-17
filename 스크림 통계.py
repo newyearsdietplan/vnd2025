@@ -310,7 +310,7 @@ if menu == "8. 팀별 승률 및 상대전적":
         grouped = df.groupby(["경기 번호", "팀"]).size().reset_index(name="선수수")
 
         # 선수 3명 이상 팀만 필터링
-        valid_teams_per_game = grouped[grouped["선수수"] >= 3]
+        valid_teams_per_game = grouped[grouped["선수수"] >= 1]
 
         # 경기별, 팀별 승패 정보
         team_matches = df.groupby(["경기 번호", "팀"]).agg({"승패": "first"}).reset_index()
