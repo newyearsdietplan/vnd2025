@@ -447,7 +447,8 @@ if menu == "8. 팀별 승률 및 상대전적":
             color = "#d1f0d1" if row["승패"] == "v" else "#f8d0d0"
             return [f"background-color: {color}"] * len(row)
 
-        for game_id in sorted(df["경기 번호"].unique(), reverse=True):
+        recent_games = sorted(df["경기 번호"].unique(), reverse=True)[:10]
+        for game_id in recent_games:
             game_data = df[df["경기 번호"] == game_id]
 
             # 선수 3명 이상 팀 필터링
